@@ -17,6 +17,8 @@ def get_coordinates(bar):
 
 
 def get_distance(bar, latitude, longitude):
+    # Use haversine formula
+    # https://en.wikipedia.org/wiki/Haversine_formula
     earth_radius = 6372.8
     latitude_of_bar, longitude_of_bar = get_coordinates(bar)
     d_of_lat = (latitude_of_bar - latitude) / 2
@@ -28,32 +30,38 @@ def get_distance(bar, latitude, longitude):
 
 def get_biggest_bar(bars_list):
     biggest_bar = max(bars_list, key=get_seats_count)
-    return biggest_bar['properties']['Attributes']['Name']
+    return biggest_bar
 
 
 def get_smallest_bar(bars_list):
     smallest_bar = min(bars_list, key=get_seats_count)
-    return smallest_bar['properties']['Attributes']['Name']
+    return smallest_bar
 
 
 def get_closest_bar(bars_list, latitude, longitude):
     def distance_from_bar(bar):
         return get_distance(bar, latitude, longitude)
     closest_bar = min(bars_list, key=distance_from_bar)
-    return closest_bar['properties']['Attributes']['Name']
+    return closest_bar
 
 if __name__ == '__main__':
     try:
         file_path = sys.argv[1]
         bars = load_data(file_path)
-        longitude = radians(float(input('Enter longitude: ')))
-        latitude = radians(float(input('Enter latitude: ')))
-        print('Самый большой бар:', get_biggest_bar(bars))
-        print('Самый маленький бар:', get_smallest_bar(bars))
-        print('Ближайший бар:', get_closest_bar(bars, latitude, longitude))
     except FileNotFoundError:
         print('No file')
     except json.decoder.JSONDecodeError:
         print('Troubles with content of json file')
     except IndexError:
         print('You did not write the name of file')
+    longitude = radians(float(input('Enter longitude: ')))
+    latitude = radians(float(input('Enter latitude: ')))
+    biggest_bar = get_biggest_bar(bars)
+    name_of_biggest_bar = biggest_bar['properties']['Attributes']['Name']
+    print('Самый большой бар:', name_of_biggest_bar)
+    smallest_bar = get_smallest_bar(bars)
+    name_of_smallest_bar = smallest_bar['properties']['Attributes']['Name']
+    print('Самый маленький бар:', name_of_smallest_bar)
+    closest_bar = get_closest_bar(bars, latitude, longitude)
+    name_of_closest_bar = closest_bar['properties']['Attributes']['Name']
+    print('Ближайший бар:', name_of_closest_bar)
