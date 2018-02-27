@@ -1,5 +1,6 @@
 import json
 from math import sin, cos, asin, sqrt, radians
+import sys
 
 
 def load_data(filepath):
@@ -43,13 +44,13 @@ def get_closest_bar(bars_list, latitude, longitude):
 
 if __name__ == '__main__':
     try:
+        file_path = sys.argv[1]
+        bars = load_data(file_path)
         longitude = radians(float(input('Enter longitude: ')))
         latitude = radians(float(input('Enter latitude: ')))
-        file_path = 'bars.json'
-        bars = load_data(file_path)
-        print(get_biggest_bar(bars))
-        print(get_smallest_bar(bars))
-        print(get_closest_bar(bars, latitude, longitude))
+        print('Самый большой бар:', get_biggest_bar(bars))
+        print('Самый маленький бар:', get_smallest_bar(bars))
+        print('Ближайший бар:', get_closest_bar(bars, latitude, longitude))
     except FileNotFoundError:
         print('No file')
     except json.decoder.JSONDecodeError:
