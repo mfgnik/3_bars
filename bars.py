@@ -39,9 +39,10 @@ def get_smallest_bar(bars_list):
 
 
 def get_closest_bar(bars_list, latitude, longitude):
-    def distance_from_bar(bar):
-        return get_distance(bar, latitude, longitude)
-    closest_bar = min(bars_list, key=distance_from_bar)
+    closest_bar = min(
+        bars_list,
+        key=lambda bar: get_distance(bar, latitude, longitude)
+    )
     return closest_bar
 
 if __name__ == '__main__':
@@ -54,8 +55,11 @@ if __name__ == '__main__':
         print('Troubles with content of json file')
     except IndexError:
         print('You did not write the name of file')
-    longitude = radians(float(input('Enter longitude: ')))
-    latitude = radians(float(input('Enter latitude: ')))
+    try:
+        longitude = radians(float(input('Enter longitude: ')))
+        latitude = radians(float(input('Enter latitude: ')))
+    except ValueError:
+        print('You did not write number')
     biggest_bar = get_biggest_bar(bars)
     name_of_biggest_bar = biggest_bar['properties']['Attributes']['Name']
     print('Самый большой бар:', name_of_biggest_bar)
