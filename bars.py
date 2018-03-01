@@ -49,23 +49,22 @@ if __name__ == '__main__':
     try:
         file_path = sys.argv[1]
         bars = load_data(file_path)
+        biggest_bar = get_biggest_bar(bars)
+        longitude = radians(float(input('Enter longitude: ')))
+        latitude = radians(float(input('Enter latitude: ')))
+        name_of_biggest_bar = biggest_bar['properties']['Attributes']['Name']
+        print('Самый большой бар:', name_of_biggest_bar)
+        smallest_bar = get_smallest_bar(bars)
+        name_of_smallest_bar = smallest_bar['properties']['Attributes']['Name']
+        print('Самый маленький бар:', name_of_smallest_bar)
+        closest_bar = get_closest_bar(bars, latitude, longitude)
+        name_of_closest_bar = closest_bar['properties']['Attributes']['Name']
+        print('Ближайший бар:', name_of_closest_bar)
     except FileNotFoundError:
         print('No file')
     except json.decoder.JSONDecodeError:
         print('Troubles with content of json file')
     except IndexError:
         print('You did not write the name of file')
-    try:
-        longitude = radians(float(input('Enter longitude: ')))
-        latitude = radians(float(input('Enter latitude: ')))
     except ValueError:
-        print('You did not write number')
-    biggest_bar = get_biggest_bar(bars)
-    name_of_biggest_bar = biggest_bar['properties']['Attributes']['Name']
-    print('Самый большой бар:', name_of_biggest_bar)
-    smallest_bar = get_smallest_bar(bars)
-    name_of_smallest_bar = smallest_bar['properties']['Attributes']['Name']
-    print('Самый маленький бар:', name_of_smallest_bar)
-    closest_bar = get_closest_bar(bars, latitude, longitude)
-    name_of_closest_bar = closest_bar['properties']['Attributes']['Name']
-    print('Ближайший бар:', name_of_closest_bar)
+        print('You wrote number not correctly')
