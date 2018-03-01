@@ -12,7 +12,7 @@
 ```bash
 
 python bars.py bars.json
-Enter longitude: 55.753752
+Enter longitude: 55.753
 Enter latitude: 37.622
 
 Output:
