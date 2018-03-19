@@ -47,29 +47,22 @@ def get_closest_bar(bars_list, latitude, longitude):
 
 
 if __name__ == '__main__':
-    try:
-        file_path = sys.argv[1]
-        bars = load_data(file_path)
-        longitude = radians(float(input('Enter longitude: ')))
-        latitude = radians(float(input('Enter latitude: ')))
-        print(
-            'Самый большой бар:',
-            get_biggest_bar(bars)['properties']['Attributes']['Name']
-        )
-        print(
-            'Самый маленький бар:',
-            get_smallest_bar(bars)['properties']['Attributes']['Name']
-        )
-        closest_bar = get_closest_bar(bars, latitude, longitude)
-        print(
-            'Ближайший бар:',
-            closest_bar['properties']['Attributes']['Name']
-        )
-    except FileNotFoundError:
-        print('No file')
-    except json.decoder.JSONDecodeError:
-        print('Troubles with content of json file')
-    except IndexError:
-        print('You did not write the name of file')
-    except ValueError:
-        print('You wrote number not correctly')
+    if len(sys.argv) == 1:
+        sys.exit('No file')
+    file_path = sys.argv[1]
+    bars = load_data(file_path)
+    longitude = radians(float(input('Enter longitude: ')))
+    latitude = radians(float(input('Enter latitude: ')))
+    print(
+        'Самый большой бар:',
+        get_biggest_bar(bars)['properties']['Attributes']['Name']
+    )
+    print(
+        'Самый маленький бар:',
+        get_smallest_bar(bars)['properties']['Attributes']['Name']
+    )
+    closest_bar = get_closest_bar(bars, latitude, longitude)
+    print(
+        'Ближайший бар:',
+        closest_bar['properties']['Attributes']['Name']
+    )
