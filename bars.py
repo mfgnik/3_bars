@@ -8,20 +8,6 @@ def load_data(filepath):
         return json.loads(json_file.read())['features']
 
 
-def input_of_coordinates():
-    while True:
-        longitude = input('Enter longitude: ')
-        latitude = input('Enter latitude: ')
-        try:
-            longitude = radians(float(longitude))
-            latitude = radians(float(latitude))
-        except ValueError:
-            print('Координаты введены неверно. Введите их снова')
-        if type(longitude) == float and type(latitude) == float:
-            break
-    return longitude, latitude
-
-
 def get_seats_count(bar):
     return bar['properties']['Attributes']['SeatsCount']
 
@@ -65,7 +51,11 @@ if __name__ == '__main__':
         sys.exit('No file')
     file_path = sys.argv[1]
     bars = load_data(file_path)
-    longitude, latitude = input_of_coordinates()
+    try:
+        longitude = radians(float(input('Enter longitude: ')))
+        latitude = radians(float(input('Enter latitude: ')))
+    except ValueError:
+        sys.exit('Координаты введены неверно.')
     print(
         'Самый большой бар:',
         get_biggest_bar(bars)['properties']['Attributes']['Name']
