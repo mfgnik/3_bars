@@ -15,7 +15,7 @@ def input_of_coordinates():
         try:
             longitude = radians(float(longitude))
             latitude = radians(float(latitude))
-        except:
+        except ValueError:
             print('Координаты введены неверно. Введите их снова')
         if type(longitude) == float and type(latitude) == float:
             break
